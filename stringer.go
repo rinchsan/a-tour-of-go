@@ -10,8 +10,7 @@ func (a IPAddr) String() string {
   for _, a := range a {
     str += fmt.Sprintf("%v.", a)
   }
-  str = str[: len(str) - 1]
-  return str
+  return str[: len(str) - 1]
 }
 
 func main() {
