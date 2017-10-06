@@ -6,7 +6,12 @@ type IPAddr [4]byte
 
 // TODO: Add a "String() string" method to IPAddr.
 func (a IPAddr) String() string {
-  return fmt.Sprintf("%v.%v.%v.%v", a[0], a[1], a[2], a[3])
+  var str string
+  for _, a := range a {
+    str += fmt.Sprintf("%v.", a)
+  }
+  str = str[: len(str) - 1]
+  return str
 }
 
 func main() {
