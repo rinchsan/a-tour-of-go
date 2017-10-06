@@ -9,9 +9,7 @@ func fibonacci() func() int {
 	var last int = 1
 	return func() int {
 		temp := secondLast
-		next := last + secondLast
-		secondLast = last
-		last = next
+		last, secondLast = last + secondLast, last
 		return temp
 	}
 }
