@@ -14,7 +14,7 @@ func (e ErrNegativeSqrt) Error() string {
 
 func Sqrt(x float64) (float64, error) {
   if x < 0 {
-    return 0, ErrNegativeSqrt(x)
+    return -1, ErrNegativeSqrt(x)
   }
   var z float64 = 1.0
   for {
