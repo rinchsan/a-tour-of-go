@@ -1,7 +1,6 @@
 package main
 
 import (
-	"time"
 	"sync"
 	"fmt"
 )
@@ -30,10 +29,12 @@ func (c *UrlCache) Exists(url string) bool {
 }
 
 var c = UrlCache{urlMap: make(map[string]bool)}
+var wg = new(sync.WaitGroup)
 
 // Crawl uses fetcher to recursively crawl
 // pages starting with url, to a maximum of depth.
 func Crawl(url string, depth int, fetcher Fetcher) {
+	defer wg.Done()
 	if depth <= 0 {
 		return
 	}
@@ -48,13 +49,15 @@ func Crawl(url string, depth int, fetcher Fetcher) {
 	}
 	fmt.Printf("found: %s %q\n", url, body)
 	for _, u := range urls {
+		wg.Add(1)
 		go Crawl(u, depth-1, fetcher)
 	}
 }
 
 func main() {
+	wg.Add(1)
 	go Crawl("http://golang.org/", 4, fetcher)
-	time.Sleep(time.Second)
+	wg.Wait()
 }
 
 // fakeFetcher is Fetcher that returns canned results.
