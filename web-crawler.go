@@ -1,8 +1,8 @@
 package main
 
 import (
-	"sync"
 	"fmt"
+	"sync"
 )
 
 type Fetcher interface {
@@ -13,7 +13,7 @@ type Fetcher interface {
 
 type UrlCache struct {
 	urlMap map[string]bool
-	mux sync.Mutex
+	mux    sync.Mutex
 }
 
 func (c *UrlCache) Register(url string) {
@@ -39,7 +39,9 @@ func Crawl(url string, depth int, fetcher Fetcher) {
 		return
 	}
 
-	if c.Exists(url) { return }
+	if c.Exists(url) {
+		return
+	}
 	c.Register(url)
 
 	body, urls, err := fetcher.Fetch(url)
